@@ -11,6 +11,8 @@ import SnapKit
 
 class ViewController: UIViewController {
     
+    var button: UIButton!
+    
     let someImageView: UIImageView = {
         let theImageView = UIImageView()
         theImageView.image = UIImage(named: "chucknorris")
@@ -24,10 +26,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         setup()
+        animateImage()
         view.addSubview(someImageView)
         someImageViewConstraints()
-       
+        
         //LABEL
         //        let childView = UIView()
         //        childView.backgroundColor = .blue
@@ -39,20 +43,19 @@ class ViewController: UIViewController {
         //            make.centerX.equalTo(self.view)
         //        }
         
-        
-        //BOTAO
-        self.view.addSubview(box)
-        box.backgroundColor = .orange
-        
-        
-        box.snp.makeConstraints { (make) -> Void in
-            make.center.equalTo(self.view)
-            make.centerY.equalTo(800)
-            make.size.equalTo(CGSize(width: 250, height: 75))
-            
-            
-        }
-        
+       
+    }
+    func animateImage(){
+    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 6, options: [], animations: {
+                   self.someImageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                   self.someImageView.transform = .identity
+               
+           }) { finished in
+               
+           }
+    }
+    @objc func buttonAction(){
+       
     }
     //IMAGEM
     func someImageViewConstraints() {
@@ -63,9 +66,28 @@ class ViewController: UIViewController {
         
         
     }
-    //NAVIGATION
+    //BOTAO
+    
     func setup(){
+        self.view.addSubview(box)
+        box.backgroundColor = .orange
+        self.view.addSubview(box)
+        button = UIButton()
+        //button.center = self.view.center
+        button.setTitle("Button", for: UIControl.State.normal)
+        button.setTitleColor(UIColor.black, for: UIControl.State.normal)
         
+        button.addTarget(self, action: #selector(buttonAction), for: UIControl.Event.touchUpInside )
+        
+        box.snp.makeConstraints { (make) -> Void in
+            make.center.equalTo(self.view)
+            make.centerY.equalTo(800)
+            make.size.equalTo(CGSize(width: 250, height: 75))
+            
+            self.view.addSubview(button)
+           
+        }
+        //NAVBAR
         
         view.backgroundColor = .white
         let superview = self.view
@@ -76,6 +98,7 @@ class ViewController: UIViewController {
             make.height.equalTo(90)
             make.width.equalTo(superview!)
         }
+        //LABEL
         let titleLabel = UILabel()
         navbar.addSubview(titleLabel)
         titleLabel.text = "9999999"
@@ -87,6 +110,5 @@ class ViewController: UIViewController {
         
         
     }
-    
     
 }
